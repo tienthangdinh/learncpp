@@ -98,3 +98,21 @@ whether a declaration of that same identifier in the different scope refers to t
 
 ## forward declaration
 to access a function or variable in another file
+
+# 7.13 "using"
+```
+int main()
+{
+    {
+        using namespace Foo;
+        // calls to Foo:: stuff here
+    } // using namespace Foo expires
+
+    {
+        using namespace Goo;
+        // calls to Goo:: stuff here
+    } // using namespace Goo expires
+
+    return 0;
+}
+```
