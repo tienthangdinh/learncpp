@@ -20,3 +20,10 @@ implicit block
 - should not indent labels
 - switch only numbers
 - labels do not define a new scope (ofc)
+
+# 8.11 break, continue
+
+# 8.14 random number generation
+```
+std::mt19937 mt{};
+```
