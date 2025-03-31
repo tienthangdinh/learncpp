@@ -1,0 +1,1 @@
+static_assert is assert in compile time
