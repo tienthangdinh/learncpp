@@ -63,3 +63,26 @@ int main()
     return 0;
 }
 ```
+
+# narrowing conversion
+NOT GOOD, because loss information
+but can use `static_cast`
+
+# arithmetic conversion
+what if `??? y { 2 + 3.5 };`?
+
+=> conversion rules by ranking
+- long double (highest rank)
+- double
+- float
+- long long
+- long
+- int (lowest rank)
+
+
+# explicit conversion
+- static cast: compile time ```static_cast<int>(var)```
+or
+```(int)var```
+- dynamic cast: runtime
+
