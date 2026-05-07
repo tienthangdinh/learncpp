@@ -34,15 +34,12 @@ set(deps
   tf2_ros
 )
 # --- Lesson 01 ---
-add_executable(lesson01_exe src/lesson01_basics.cpp)
-ament_target_dependencies(lesson01_exe ${deps})
-add_executable(lambda_ref_val_spin src/lambda_ref_val_spin.cpp)
-ament_target_dependencies(lambda_ref_val_spin ${deps})
+add_executable(execute_example src/rvalue_perfect_forwarding.cpp)
+ament_target_dependencies(execute_example ${deps})
 
 # Install the executable so "ros2 run" can find it
 install(TARGETS
-  lesson01_exe
-  lambda_ref_val_spin
+execute_example
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

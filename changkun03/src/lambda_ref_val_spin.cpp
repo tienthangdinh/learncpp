@@ -51,4 +51,5 @@ int main(int argc, char **argv) {
 - lambda with val (treat as constant) and ref
 - constructed a ROS node that : public rclcpp::Node
 - scope of variable, please declare in private or public, not in just a function
+- "this" is ALWAYS a POINTER!!!
 */

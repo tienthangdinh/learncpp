@@ -1,4 +1,4 @@
-# Journey of learning to communicate to Operating System
+# Journey to love computer architecture again
 
 To start docker 
 ```
@@ -25,5 +25,5 @@ colcon build --packages-select changkun03
 source install/setup.bash
 
 # Run the lesson!
-ros2 run changkun03 lesson01_exe
+ros2 run changkun03 execute_example
 ```
