@@ -12,6 +12,8 @@ source ROS:
 
 ```source /opt/ros/humble/setup.bash```
 
+To create package:
+
 To build code:
 
 ```
