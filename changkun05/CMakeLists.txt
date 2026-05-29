@@ -33,7 +33,7 @@ set(deps
   tf2_ros
 )
 # --- Lesson 01 ---
-add_executable(execute_example src/heapandstack.cpp)
+add_executable(execute_example src/weakptr.cpp)
 ament_target_dependencies(execute_example ${deps})
 
 # Install the executable so "ros2 run" can find it

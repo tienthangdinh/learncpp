@@ -16,19 +16,19 @@ public:
 
         auto heap_int1 = std::make_shared<int>(42); // Heap allocation
         int* heap_int2 = new int(84); // Heap allocation
-        std::cout << "Heap Int 1 Adress" << heap_int1.get() << "But the Pointer is on the STACK" << &heap_int1 << std::endl;
-        std::cout << "Heap Int 2 Adress" << heap_int2.get() << "But the Pointer is on the STACK" << &heap_int2 << std::endl;
+        std::cout << "Heap Int 1 Adress" << heap_int1.get() << "But the Pointer is on the STACK" << &heap_int1 << std::endl; //you will see that these two pointers are 8 bytes awy from each other, pointer always take 8 bytes
+        std::cout << "Heap Int 2 Adress" << heap_int2 << "But the Pointer is on the STACK" << &heap_int2 << std::endl; //as you can see, normal pointer dont need .get(), the pointer is the address itself
 
         //Growing, std::vector are usually on the heap, but the pointer to it is on the stack
         std::vector<int> robot_path;
-        std::cout << "Initial Vector size: " << robot_path.size() << "size in bytes" << sizeof(robot_path) << ", capacity: " << robot_path.capacity() << ", pointer address: " << &robot_path << ", heap address: " << robot_path.data() << std::endl;
+        std::cout << "Initial Vector size: " << robot_path.size() << "size in bytes" << sizeof(robot_path) << ", capacity: " << robot_path.capacity() << ", pointer address: " << &robot_path << ", heap address: " << robot_path.data() << std::endl; //in the beginning, you will see address 0 (nullptr)
         for (auto i = 0; i < 10; ++i) {
             robot_path.push_back(i);
             std::cout << "Vector number of elements: " << robot_path.size() << "size in bytes" << sizeof(robot_path) << ", capacity: " << robot_path.capacity() << ", pointer address: " << &robot_path << ", heap address: " << robot_path.data() << std::endl;
         }
+        this->print_virtual_memory_map();
     }
 
-    print_virtual_memory_map();
 
 private:
     // Helper to read the Linux kernel's memory map for this exact process
@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
 }
 /*
 take home message 18. Mai 2026:
-- Stack: LIFO, used for function calls, local variables, and control flow. $8\text{ MB}$ per thread (Default) => stack overflow
+- Stack: LIFO, used for function calls, local variables, and control flow. $8\text{ MB}$ per thread/program, but the heap is inflatable and can be up to 2^64 bytes
 - Heap: used for dynamic memory allocation.
 - in OS there are many programs, each program assumes it is the only one running => works inside its VIRTUAL MEMORY 2^64
 - each program has its own VIRTUAL MEMORY stack and heap, ISOLATED !!! can never touch each other
