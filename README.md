@@ -2,6 +2,7 @@
 
 Practice here:
 https://www.ewskills.com/
+https://changkun.de/modern-cpp/en-us/07-thread/
 
 To start docker 
 ```
@@ -16,7 +17,9 @@ source ROS:
 ```source /opt/ros/humble/setup.bash```
 
 To create package:
-
+```
+ros2 pkg create --build-type ament_cmake tf2 --dependencies rclcpp std_msgs geometry_msgs sensor_msgs tf2_ros
+```
 To build code:
 
 ```
