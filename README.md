@@ -4,13 +4,29 @@ Practice here:
 https://www.ewskills.com/
 https://changkun.de/modern-cpp/en-us/07-thread/
 
-To start docker 
+To start minimal docker 
 ```
 docker run -it --rm \
   -v "$(pwd):/home/dev_ws/src" \
   -w /home/dev_ws \
   ros:humble-ros-base
 ```
+To start VNC docker
+```
+docker run -it --rm \
+  -p 6080:80 \
+  -v "$(pwd):/home/ubuntu/dev_ws/src" \
+  -w /home/ubuntu/dev_ws \
+  --name ros2_desktop_container \
+  --security-opt seccomp=unconfined \
+  tiryoh/ros2-desktop-vnc:humble
+```
+
+To get into another terminal of the same docker container:
+```
+docker exec -it 099a4b8a510a /bin/bash 
+```
+
 
 source ROS:
 

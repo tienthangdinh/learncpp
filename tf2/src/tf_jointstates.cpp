@@ -17,7 +17,7 @@ class WorkflowDemo : public rclcpp::Node {
     WorkflowDemo() : Node("workflowdemo_node") {
         //but why bother using pointer? -> just for manual control
         tf_static_broadcaster_ = std::make_shared<tf2_ros::StaticTransformBroadcaster>(this); // why pointer and why did you design this to be a shared pointer? -> idk but the API seems to use some components internally relying on shared lifecycle ownership  https://docs.ros.org/en/humble/p/tf2_ros/generated/classtf2__ros_1_1StaticTransformBroadcaster.html
-        tf_dynamic_broadcaster_ = std::make_unique<tf2::TransformBroadcaster>(this); // why pointer and why did you design this to be a unique pointer? -> unique is always preffered. https://docs.ros.org/en/humble/p/tf2_ros/generated/classtf2__ros_1_1TransformBroadcaster.html
+        tf_dynamic_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(this); // why pointer and why did you design this to be a unique pointer? -> unique is always preffered. https://docs.ros.org/en/humble/p/tf2_ros/generated/classtf2__ros_1_1TransformBroadcaster.html
 
         joint_state_pub_ = this->create_publisher<sensor_msgs::msg::JointState>("/joint_states", 10); // why not design this to be any pointer like above? -> just construct it this way because Node has this method. https://docs.ros.org/en/kilted/p/rclcpp/generated/classrclcpp_1_1Node.html#_CPPv4I000EN6rclcpp4Node17create_wall_timerEN6rclcpp9WallTimerI9CallbackTE9SharedPtrENSt6chrono8durationI12DurationRepT9DurationTEE9CallbackTN6rclcpp13CallbackGroup9SharedPtrEb
 
@@ -33,7 +33,7 @@ class WorkflowDemo : public rclcpp::Node {
         geometry_msgs::msg::TransformStamped static_tf;
         static_tf.header.stamp = this->get_clock()->now();
         static_tf.header.frame_id = "world";
-        static_tf.header.child_frame_id = "robot_base";
+        static_tf.child_frame_id = "robot_base";
 
         static_tf.transform.translation.x = 1.5;
         static_tf.transform.translation.y = 0.0;

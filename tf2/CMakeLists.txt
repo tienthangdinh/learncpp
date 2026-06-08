@@ -26,8 +26,8 @@ if(BUILD_TESTING)
 endif()
 
 # Declare executable
-add_executable(execute_node src/tf_picker.cpp)
-ament_target_dependencies(execute_node rclcpp tf2_ros geometry_msgs)
+add_executable(execute_node src/tf_jointstates.cpp)
+ament_target_dependencies(execute_node rclcpp tf2_ros geometry_msgs sensor_msgs)
 
 # Install executable
 install(TARGETS
