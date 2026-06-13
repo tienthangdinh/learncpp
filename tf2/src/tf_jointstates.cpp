@@ -29,7 +29,7 @@ class WorkflowDemo : public rclcpp::Node {
     }
 
     private:
-    void publish_static_environment() {
+    void publish_static_environment() { //ros2 topic echo /tf_static to see the static transform
         geometry_msgs::msg::TransformStamped static_tf;
         static_tf.header.stamp = this->get_clock()->now();
         static_tf.header.frame_id = "world";
@@ -44,7 +44,7 @@ class WorkflowDemo : public rclcpp::Node {
         RCLCPP_INFO(this->get_logger(), "Published fixed environment map to /tf_static"); //does StaticTransformBroadcaster auto publish on /tf_static? i haven read that in documentation
     }
 
-    void robot_motor_loop() {
+    void robot_motor_loop() { //ros2 topic echo /joint_states to see the joint state, ros2 topic echo /tf to see the dynamic transform
         joint_angle_ += 0.02;
         if (joint_angle_ > 2 * M_PI) joint_angle_ = 0.0;
 

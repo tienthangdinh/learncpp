@@ -30,7 +30,11 @@ docker exec -it 099a4b8a510a /bin/bash
 
 source ROS:
 
-```source /opt/ros/humble/setup.bash```
+```
+sudo apt update && sudo apt install -y ros-humble-xacro
+sudo apt install -y ros-humble-joint-state-publisher-gui
+source /opt/ros/humble/setup.bash
+```
 
 To create package:
 ```
