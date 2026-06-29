@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="seven_dof_arm">
+
+  <xacro:property name="PI" value="3.14159265359" />
+  <xacro:property name="max_effort" value="100.0" />
+  <xacro:property name="max_vel" value="2.5" />
+  
+  <xacro:property name="base_radius" value="0.1" />
+  <xacro:property name="base_length" value="0.2" />
+
+  <material name="dark_gray"><color rgba="0.2 0.2 0.2 1.0"/></material>
+  <material name="light_gray"><color rgba="0.8 0.8 0.8 1.0"/></material>
+  <material name="blue"><color rgba="0.0 0.4 0.8 1.0"/></material>
+
+  <xacro:macro name="arm_link" params="name length radius color">
+    <link name="${name}">
+      <visual>
+        <origin xyz="0 0 ${length / 2}" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${radius}" length="${length}"/>
+        </geometry>
+        <material name="${color}"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${length / 2}" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${radius}" length="${length}"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+
+  <link name="world"/>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 ${base_length / 2}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${base_radius}" length="${base_length}"/>
+      </geometry>
+      <material name="dark_gray"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${base_length / 2}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="${base_radius}" length="${base_length}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <xacro:arm_link name="link_1" length="0.30" radius="0.08" color="light_gray" />
+  <xacro:arm_link name="link_2" length="0.40" radius="0.07" color="blue" />
+  <xacro:arm_link name="link_3" length="0.30" radius="0.06" color="light_gray" />
+  <xacro:arm_link name="link_4" length="0.40" radius="0.06" color="blue" />
+  <xacro:arm_link name="link_5" length="0.20" radius="0.05" color="light_gray" />
+  <xacro:arm_link name="link_6" length="0.16" radius="0.04" color="blue" />
+  <xacro:arm_link name="link_7" length="0.04" radius="0.05" color="dark_gray" />
+
+
+  <joint name="world_to_base" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint_1" type="revolute">
+    <parent link="base_link"/>
+    <child link="link_1"/>
+    <origin xyz="0 0 ${base_length}" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-${PI}" upper="${PI}" effort="${max_effort}" velocity="${max_vel}"/>
+  </joint>
+
+  <joint name="joint_2" type="revolute">
+    <parent link="link_1"/>
+    <child link="link_2"/>
+    <origin xyz="0 0 0.3" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-${2 * PI / 3}" upper="${2 * PI / 3}" effort="${max_effort}" velocity="${max_vel}"/>
+  </joint>
+
+  <joint name="joint_3" type="revolute">
+    <parent link="link_2"/>
+    <child link="link_3"/>
+    <origin xyz="0 0 0.4" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-${PI}" upper="${PI}" effort="80.0" velocity="${max_vel}"/>
+  </joint>
+
+  <joint name="joint_4" type="revolute">
+    <parent link="link_3"/>
+    <child link="link_4"/>
+    <origin xyz="0 0 0.3" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-${2 * PI / 3}" upper="${2 * PI / 3}" effort="80.0" velocity="${max_vel}"/>
+  </joint>
+
+  <joint name="joint_5" type="revolute">
+    <parent link="link_4"/>
+    <child link="link_5"/>
+    <origin xyz="0 0 0.4" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-${PI}" upper="${PI}" effort="40.0" velocity="3.0"/>
+  </joint>
+
+  <joint name="joint_6" type="revolute">
+    <parent link="link_5"/>
+    <child link="link_6"/>
+    <origin xyz="0 0 0.2" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-${2 * PI / 3}" upper="${2 * PI / 3}" effort="40.0" velocity="3.0"/>
+  </joint>
+
+  <joint name="joint_7" type="revolute">
+    <parent link="link_6"/>
+    <child link="link_7"/>
+    <origin xyz="0 0 0.16" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-${PI}" upper="${PI}" effort="20.0" velocity="4.0"/>
+  </joint>
+
+</robot>

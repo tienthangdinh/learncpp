@@ -33,6 +33,11 @@ source ROS:
 ```
 sudo apt update && sudo apt install -y ros-humble-xacro
 sudo apt install -y ros-humble-joint-state-publisher-gui
+sudo apt install -y wget lsb-release gnupg
+sudo wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
+sudo apt update
+sudo apt install -y ros-humble-ros-gz-sim ros-humble-ros-gz-bridge
 source /opt/ros/humble/setup.bash
 ```
 
