@@ -36,8 +36,10 @@ sudo apt install -y ros-humble-joint-state-publisher-gui
 sudo apt install -y wget lsb-release gnupg
 sudo wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
-sudo apt update
+sudo apt update #very important!!!
 sudo apt install -y ros-humble-ros-gz-sim ros-humble-ros-gz-bridge
+sudo apt install -y ros-humble-moveit
+sudo apt install -y ros-humble-ros2-control ros-humble-ros2-controllers
 source /opt/ros/humble/setup.bash
 ```
 
@@ -50,15 +52,9 @@ To build code:
 ```
 # Move to the workspace root
 cd /home/dev_ws
-
-# Build only your learning package
-colcon build --packages-select changkun03
-
-# Update your terminal's path to see the new build
+colcon build --packages-select stupid_moveit_config
 source install/setup.bash
-
-# Run the lesson!
-ros2 run changkun03 execute_example
+ros2 launch stupid_moveit_config demo.launch.py
 ```
 
 ## Plan for blog

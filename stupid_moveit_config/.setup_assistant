@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: my_robot_arm
+    relative_path: urdf/robot.xacro
+  srdf:
+    relative_path: config/seven_dof_arm.srdf
+  package_settings:
+    author_name: thang
+    author_email: tienthangdinh@hotmail.com
+    generated_timestamp: 1782761523
