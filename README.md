@@ -1,17 +1,34 @@
 # Journey of learning to communicate with Computer Architecture
 
-Practice here:
+## Practice here:
 https://www.ewskills.com/
 https://changkun.de/modern-cpp/en-us/07-thread/
 
-To start minimal docker 
+## To test normal C++ code:
+c++ -std=c++20 -I include src/main.cpp src/robot_battery.cpp -o robot_program
+
+## To run CMakeLists:
+Create and enter a temporary build directory
+```mkdir build && cd build```
+
+Generate the build files
+```cmake ..```
+
+Compile the project
+```cmake --build .```
+
+Run the executable (The exact name depends on your CMakeLists.txt setup)
+```./robot_program```
+
+
+## To start minimal docker 
 ```
 docker run -it --rm \
   -v "$(pwd):/home/dev_ws/src" \
   -w /home/dev_ws \
   ros:humble-ros-base
 ```
-To start VNC docker
+## To start VNC docker
 ```
 docker run -it --rm \
   -p 6080:80 \
@@ -85,4 +102,5 @@ ros2 launch stupid_moveit_config demo.launch.py
   - let's work alot with pointer & *
   - RAII and reference counting
   - and a lot more of that
+- Threading:
 
