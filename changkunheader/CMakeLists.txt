@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(robot_program 
     src/main.cpp 
     src/robot_battery.cpp
+    src/hardware_monitor.cpp
 )
 
 # Tell CMake where to look for header files (.hpp)
