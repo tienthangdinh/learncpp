@@ -9,7 +9,7 @@ void RobotBattery::charge(int amount) {
         if (chargeLevel < 100) {
             ++chargeLevel;
             //sleep for 0.5 seconds to simulate charging time
-            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
         } else {
             std::cout << "Battery is fully charged!" << std::endl;
             break;
@@ -22,7 +22,7 @@ void RobotBattery::discharge(int amount) {
         if (chargeLevel > 0) {
             --chargeLevel;
             //sleep for 0.5 seconds to simulate discharging time
-            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            std::this_thread::sleep_for(std::chrono::milliseconds(20));
         } else {
             std::cout << "Battery is empty!" << std::endl;
             break;

@@ -99,8 +99,11 @@ ros2 launch stupid_moveit_config demo.launch.py
   - i need more contents here (going into robotics)
 - memory management:
   - process virtual memory
+  - different ways to construct
+  - different ways to allocate: heap, stack,...
   - let's work alot with pointer & *
   - RAII and reference counting
+  - Speicher-Pool (Arena Allocator)
   - and a lot more of that
 - Threading:
 
