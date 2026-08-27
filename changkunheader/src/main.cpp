@@ -4,6 +4,7 @@
 #include <memory_arena.hpp>
 #include "virtual_mem_buffer.hpp"
 #include <new>       // Placement new
+#include <virtual_mem_inspector.hpp>
 
 //create a main function to test the RobotBattery class
 int main() {
@@ -56,5 +57,9 @@ int main() {
         std::cout << frame->sensor_data[i] << " ";
     }
     std::cout << std::endl;
+
+    std::cout << "Testing MemoryInspectorNode..." << std::endl;
+    MemoryInspectorNode inspector;
+    inspector.inspect_all_segments(10); //inspect stack, heap, and data segments with a recursion depth of 10
     return 0;
 }

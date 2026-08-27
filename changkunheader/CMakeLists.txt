@@ -12,6 +12,7 @@ add_executable(robot_program
     src/hardware_monitor.cpp
     src/memory_arena.cpp
     src/virtual_mem_buffer.cpp
+    src/virtual_mem_inspector.cpp
 )
 
 # Tell CMake where to look for header files (.hpp)
