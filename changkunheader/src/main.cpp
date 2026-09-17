@@ -5,8 +5,9 @@
 #include "virtual_mem_buffer.hpp"
 #include <new>       // Placement new
 #include <virtual_mem_inspector.hpp>
+#include "thread_stack_inspector.hpp"
 
-//create a main function to test the RobotBattery class
+
 int main() {
     HardwareMonitor monitor;
     monitor.get_cpu_info();
@@ -61,5 +62,78 @@ int main() {
     std::cout << "Testing MemoryInspectorNode..." << std::endl;
     MemoryInspectorNode inspector;
     inspector.inspect_all_segments(10); //inspect stack, heap, and data segments with a recursion depth of 10
+
+    std::cout << "Testing Thread Stack Inspector..." << std::endl;
+    print_system_stack_limits();
+    inspect_current_thread_stack(0);
+    run_thread_spawn_benchmark(100000000); // Adjust the number of threads as needed
+
     return 0;
 }
+
+/*
+HIGH ADDRESS
+       +-------------------------------------------------------+
+       | [Stack Base] (e.g., 0x16b000000)                      |
+       |                                                       |
+       |  main() starts -> pushes Frame (takes ~64 bytes)      |
+       |  +-------------------------------------------------+  |
+       |  | Frame: main()                                   |  |
+       |  +-------------------------------------------------+  |
+       |                                                       |
+       |  main() calls read_sensor() -> pushes Frame (~96 bytes|
+       |  +-------------------------------------------------+  |
+       |  | Frame: read_sensor()                            |  |
+       |  +-------------------------------------------------+  |
+       |                                                       |
+       |  read_sensor() calls filter() -> pushes Frame (~48 B) |
+       |  +-------------------------------------------------+  |
+       |  | Frame: filter()                                 |  | <-- Stack Pointer (SP)
+       |  +-------------------------------------------------+  |
+       |                                                       |
+       |  ▼ ▼ ▼  (UNTOUCHED FREE SPACE: ~7.99 MB REMAINING)    |
+       |                                                       |
+       |                                                       |
+       |                                                       |
+       +-------------------------------------------------------+
+       | [GUARD PAGE] (Inaccessible boundary at ~8 MB mark)    |
+       +-------------------------------------------------------+
+       LOW ADDRESS
+
+       void calculate() {
+    // This DOES NOT create an 8 MB stack!
+    // It takes ~48 BYTES from the existing stack.
+}
+
+int main() {
+    // 1. Thread 'main' already has its stack (~8 MB).
+
+    calculate(); // Uses ~48 bytes inside main's stack.
+
+    // 2. THIS creates a brand new stack!
+    // The OS allocates a fresh 512 KB / 8 MB region for worker_thread.
+    std::thread worker_thread(calculate); 
+    worker_thread.join();
+}
+process = the whole virtual memory space of the program
+thread = stack = 8MB
+function call = stack frame = 48 bytes
+
+
+
+Game Virtual Address Space (~128 TB available)
++-------------------------------------------------------------+
+| STACK (~512 KB to 8 MB)                                     | <-- Stays tiny! (Controls & game loops)
++-------------------------------------------------------------+
+| HEAP & GPU BUFFERS (10 GB - 24 GB)                          |
+|  - Textures (4K albedo, normal maps, roughness)             | <-- The biggest consumer (~60%)
+|  - 3D Meshes & Geometry (vertex/index buffers)              |
+|  - Audio Banks (decompressed sound clips, dialogue)         |
+|  - World State & Entities (physics trees, enemy AIs)        |
++-------------------------------------------------------------+
+| PAGE CACHE (mmap'd game archives, .pak / .bundle files)     | <-- Streaming assets from NVMe SSD
++-------------------------------------------------------------+
+| TEXT & SHADERS (Compiled metal/vulkan shaders, game engine) |
++-------------------------------------------------------------+
+
+*/
