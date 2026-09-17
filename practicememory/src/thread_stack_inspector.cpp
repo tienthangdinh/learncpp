@@ -65,3 +65,23 @@ void run_thread_spawn_benchmark(std::size_t num_threads) {
     }
 }
 
+/*
+BE CAREFUL STACK OVERFLOW: each thread has its own stack with fixed size
+1) if a threads has functions keep calling nested instead of sequentially
+2) if a thread instantiate a very large local variable
+=> SOLUTION:
+   VIRTUAL ADDRESS SPACE OF THE PROCESS
+┌────────────────────────────────────────────────────────┐
+│  [Shared Global Heap] <--- Can grow to gigabytes       │
+│   ▲               ▲                                    │
+│   │ (allocates)   │ (allocates)                        │
+│ ┌─┴──────────┐  ┌─┴──────────┐                         │
+│ │ Thread 1   │  │ Thread 2   │                         │
+│ │ Fixed Stack│  │ Fixed Stack│                         │
+│ └────────────┘  └────────────┘                         │
+└────────────────────────────────────────────────────────┘
+When your heavy thread uses C++ containers like std::vector, std::string, or manually calls new / std::make_shared:
+- The tiny management pointer lives on the thread's fixed stack.
+- The actual raw, heavy payload data is allocated dynamically in the shared heap.
+- The heap is flexible and can grow dynamically to fill your system's entire available RAM and virtual memory using mechanisms like mmap() or brk.
+*/

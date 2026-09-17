@@ -12,6 +12,7 @@ void sample_control_loop_function() {
     // Machine instructions residing in .text
 }
 
+// 3. HEAP SEGMENT: Dynamically allocated memory (grows upward). Where does this function reside? It resides in the TEXT segment, but it allocates memory on the HEAP. What does allocate memory mean? It means reserving a portion of the HEAP for use by the program, which can be done using new or malloc. The allocated memory can then be used to store data or objects during runtime.
 MemoryInspectorNode::MemoryInspectorNode() {
     // Open a dummy file/device to acquire a file descriptor from the Kernel PCB
     // STDIN = 0, STDOUT = 1, STDERR = 2 -> The next opened file gets FD = 3
@@ -44,7 +45,7 @@ void MemoryInspectorNode::inspect_all_segments(int recursion_depth) {
     int* heap_dynamic_var = new int(100);
 
     // B. Direct Virtual Page Allocation via mmap
-    void* mmap_region = mmap(nullptr, 4096, PROT_READ | PROT_WRITE, 
+    void* mmap_region = mmap(nullptr, 4096, PROT_READ | PROT_WRITE, //what is the difference between mmap and new? new allocates memory from the heap and constructs an object, while mmap maps files or devices into memory. Mmap can allocate memory regions that are not necessarily part of the heap
                              MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
 
     // -------------------------------------------------------------
@@ -56,9 +57,9 @@ void MemoryInspectorNode::inspect_all_segments(int recursion_depth) {
     // TEXT (Machine Code)
     std::cout << "\n--- [1] TEXT SEGMENT (Code / Machine Instructions - Low Memory) ---" << std::endl;
     std::cout << "  Free Function Address:            " 
-              << reinterpret_cast<void*>(&sample_control_loop_function) << std::endl;
+              << reinterpret_cast<void*>(&sample_control_loop_function) << std::endl; //printing a pointer means printing the address of the function in memory, which is where the compiled machine code for that function resides. This is part of the TEXT segment of the process's virtual memory layout, which contains the executable code.
     std::cout << "  Current Object (this) Address:          "
-              << reinterpret_cast<void*>(this) << std::endl;
+              << reinterpret_cast<void*>(this) << std::endl; //printing the address of the current object (this) in the HEAP, this one in HEAP not TEXT!!!
 
     // DATA / BSS
     std::cout << "\n--- [2] DATA & BSS SEGMENTS (Globals & Static Data) ---" << std::endl;
@@ -66,7 +67,7 @@ void MemoryInspectorNode::inspect_all_segments(int recursion_depth) {
               << static_cast<void*>(&g_robot_system_status) << std::endl;
     std::cout << "  Initialized Static Global (.data):" 
               << static_cast<void*>(&g_global_kinematic_scale) << std::endl;
-    std::cout << "  Uninitialized Global (.bss):      " 
+    std::cout << "  Uninitialized Global (.bss):      "  //what is .bss? "Block Started by Symbol,"， it is used to save space in the executable file since it does not need to store actual data for these variables yet, only their size and type.
               << static_cast<void*>(&g_uninitialized_error_code) << std::endl;
 
     // HEAP (Grows UP)

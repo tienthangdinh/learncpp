@@ -4,12 +4,12 @@ VirtualMemoryBuffer::VirtualMemoryBuffer(std::size_t num_pages) {
     page_size_ = static_cast<std::size_t>(sysconf(_SC_PAGESIZE));
     total_size_ = num_pages * page_size_;
     std::cout << "Creating VirtualMemoryBuffer with " << num_pages << " pages (" << total_size_ << " bytes). OS Page size: " << page_size_ << " bytes." << std::endl;
-    mapped_region_ = mmap(
+    mapped_region_ = mmap( //the idea is that instead fopen() copying file into memory, mmap() maps the file into the process's virtual address space => read directly, no need to copy into memory, which is more efficient. mmap() can also be used to allocate anonymous memory (not backed by any file) for dynamic memory allocation, shared memory, and inter-process communication.
         nullptr, //kernel chooses the virtual address
         total_size_,  //number of bytes to map, must be a multiple of the system page size
         PROT_READ | PROT_WRITE, //memory region can be read and written
         MAP_PRIVATE | MAP_ANONYMOUS, //mapping is private and not backed by any file
-        -1, //file descriptor, -1 means no file is associated with the mapping
+        -1, //file descriptor, -1 means no file is associated with the mapping, NORMALLY this should be a file that we want to map into memory
         0); //offset in the file, 0 means start of the file
     if (mapped_region_ == MAP_FAILED) {
         std::cerr << "Failed to map memory region." << std::endl;
